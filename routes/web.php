@@ -9,5 +9,6 @@ Route::get('/', function () {
 
 Route::controller(SalesController::class)->group(function () {
     Route::get('/upload', 'index')->name('upload.index');
-    Route::post('/upload', 'store')->name('upload.store');
+    Route::post('/upload', 'upload')->name('upload');
+    Route::get('/store-data', 'store')->name('store');
 });

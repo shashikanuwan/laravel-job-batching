@@ -10,7 +10,7 @@
 
 <body>
     <div>
-        <form action="{{route('upload')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{route('upload.store')}}" method="POST" enctype="multipart/form-data">
             @csrf
             <input type="file" name="mycsv" id="mycsv">
             <input type="submit" value="Upload">

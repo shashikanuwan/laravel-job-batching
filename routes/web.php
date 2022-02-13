@@ -10,4 +10,5 @@ Route::get('/', function () {
 Route::controller(SalesController::class)->group(function () {
     Route::get('/upload', 'index')->name('upload.index');
     Route::post('/upload', 'upload')->name('upload');
+    Route::get('/batch', 'batch')->name('batch');
 });

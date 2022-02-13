@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\SalesCsvProcess;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Bus;
 
 class SalesController extends Controller
 {
@@ -19,6 +20,8 @@ class SalesController extends Controller
             $chunks = array_chunk($data, 1000);
 
             $header = [];
+            $batch = Bus::batch([])->dispatch();
+
             foreach ($chunks as $key => $chunk) {
                 $data = array_map('str_getcsv', $chunk);
 
@@ -26,9 +29,15 @@ class SalesController extends Controller
                     $header = $data[0];
                     unset($data[0]);
                 }
-                SalesCsvProcess::dispatch($data, $header);
+                $batch->add(new SalesCsvProcess($data, $header));
             }
-            return 'Done';
+            return $batch;
         }
+    }
+
+    public function batch()
+    {
+        $batchId = request('id');
+        return Bus::findBatch($batchId);
     }
 }

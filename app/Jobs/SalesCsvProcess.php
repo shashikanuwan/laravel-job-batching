@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Throwable;
 
 class SalesCsvProcess implements ShouldQueue
 {
@@ -29,5 +30,10 @@ class SalesCsvProcess implements ShouldQueue
             $saleData = array_combine($this->header, $value);
             Sale::create($saleData);
         }
+    }
+
+    public function failed(Throwable $exception)
+    {
+        
     }
 }
